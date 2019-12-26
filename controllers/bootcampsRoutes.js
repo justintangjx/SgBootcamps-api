@@ -44,11 +44,15 @@ exports.getUniqueBootcamp = async (req, res, next) => {
 //     res.status(200).json({ success: true, msg: 'create and add new bootcamp'});
 // }
 exports.createNewBootcamp = async (req, res, next) => {
-  const createNewBootcampToDB = await BootcampSchema.create(req.body);
-  res.status(201).json({
-    success: true,
-    data: createNewBootcampToDB
-  });
+    try {
+        const createNewBootcampToDB = await BootcampSchema.create(req.body);
+        res.status(201).json({
+          success: true,
+          data: createNewBootcampToDB
+        });
+    } catch (err) {
+        res.status(400).json({ success: false });
+    }
 };
 
 // update existing bootcamp
