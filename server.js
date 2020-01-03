@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
 
 // load env vars
@@ -12,6 +13,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // middleware for logging dev
 if(process.env.NODE_ENV === 'development') {
