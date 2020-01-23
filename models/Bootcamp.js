@@ -82,10 +82,15 @@ const BootcampSchema = new mongoose.Schema({
       type: Boolean,
       default: false
   },
-  jobPlacementRate: Number,
+  // jobPlacementRate: Number,
   createdAt: {
       type: Date,
       default: Date.now
+  },
+  user: {
+    type: mongoose.Schema.ObjectID,
+    ref: 'Bootcamp',
+    required: true
   }
 });
 

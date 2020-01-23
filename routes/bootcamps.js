@@ -10,18 +10,18 @@ const {
 
 const router = express.Router();
 
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 router
   .route("/")
   .get(getBootcamps)
-  .post(protect, createNewBootcamp);
+  .post(protect, authorize('publisher', 'admin'), createNewBootcamp);
 
 router
   .route("/:id")
   .get(getUniqueBootcamp)
-  .put(protect, updateBootcamp)
-  .delete(protect, deleteBootcamp);
+  .put(protect, authorize('publisher', 'admin'), updateBootcamp)
+  .delete(protect, authorize('publisher', 'admin'), deleteBootcamp);
   
 // router.get('/', (req, res) => {
 //     res.status(200).json({ success: true, msg: 'display all bootcamps' });

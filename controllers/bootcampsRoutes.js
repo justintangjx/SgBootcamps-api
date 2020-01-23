@@ -111,6 +111,17 @@ exports.getUniqueBootcamp = asyncHandler(async (req, res, next) => {
 //     }
 // };
 exports.createNewBootcamp = asyncHandler(async (req, res, next) => {
+  // add user to req.body
+  req.body.user = req.user.id;
+
+  // check for published bootcamp
+  const publishedBootcamp = await BootcampSchema.findOne({ user: req.user.id });
+
+  // if user is not admin, they can only add one bootcamp
+  if(publishedBootcamp && req.user.role !== 'admin') {
+    return next(new ErrorResponse(`the user with ID ${req.user.id} has already published a bootcamp`, 400));
+  }
+  
   const createNewBootcampToDB = await BootcampSchema.create(req.body);
   res.status(201).json({
     success: true,

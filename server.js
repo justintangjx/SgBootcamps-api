@@ -22,11 +22,13 @@ if(process.env.NODE_ENV === 'development') {
 
 // routing files
 const bootcampsRoutes = require('./routes/bootcamps');
+const coursesRoutes = require('./routes/courses');
 const authRoutes = require('./routes/auth');
 
 // mount routers
 app.use('/api/v1/bootcamps', bootcampsRoutes);
 app.use('/api/v1/auth/register', authRoutes);
+app.use('/api/v1/courses', coursesRoutes);
 
 app.use(errorHandler);
 
