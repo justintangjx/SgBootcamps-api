@@ -187,7 +187,8 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 //     }
 // };
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await BootcampSchema.findByIdAndDelete(req.params.id);
+  // const bootcamp = await BootcampSchema.findByIdAndDelete(req.params.id);
+  const bootcamp = await BootcampSchema.findById(req.params.id);
 
   if (!bootcamp) {
     // return res.status(400).json({ success: false });
@@ -195,6 +196,8 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404)
     );
   }
+  // to use the middleware
+  bootcamp.remove();
 
   res.status(200).json({ success: true, data: {} });
 });
