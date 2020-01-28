@@ -38,7 +38,7 @@ const server = app.listen(PORT, console.log(`server is running on ${process.env.
 
 // global handler to handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
-    console.log(`ERROR: ${err.message}`);
+    console.log(`ERRORSERVER: ${err.message}`);
     //close server and exit process
     server.close(() => process.exit(1));
 });

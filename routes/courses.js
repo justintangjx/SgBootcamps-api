@@ -4,7 +4,7 @@ const {
   getCourses
 } = require("../controllers/coursesRoutes");
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 
 router.route('/').get(getCourses);
 
