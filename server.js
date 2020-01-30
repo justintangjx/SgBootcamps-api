@@ -27,8 +27,8 @@ const authRoutes = require('./routes/auth');
 
 // mount routers
 app.use('/api/v1/bootcamps', bootcampsRoutes);
-app.use('/api/v1/auth/register', authRoutes);
 app.use('/api/v1/courses', coursesRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.use(errorHandler);
 
