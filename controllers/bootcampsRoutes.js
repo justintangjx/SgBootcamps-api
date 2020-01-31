@@ -102,18 +102,6 @@ exports.getUniqueBootcamp = asyncHandler(async (req, res, next) => {
 // post and add new bootcamp
 // @route POST /api/v1/bootcamps
 // @access private
-// exports.createNewBootcamp = async (req, res, next) => {
-//     try {
-//         const createNewBootcampToDB = await BootcampSchema.create(req.body);
-//         res.status(201).json({
-//           success: true,
-//           data: createNewBootcampToDB
-//         });
-//     } catch (err) {
-//         // res.status(400).json({ success: false });
-//         next(err);
-//     }
-// };
 exports.createNewBootcamp = asyncHandler(async (req, res, next) => {
   // add user to req.body
   req.body.user = req.user.id;
@@ -159,14 +147,15 @@ exports.createNewBootcamp = asyncHandler(async (req, res, next) => {
 //     }
 //   };
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await BootcampSchema.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true
-    }
-  );
+  // const bootcamp = await BootcampSchema.findByIdAndUpdate(
+  //   req.params.id,
+  //   req.body,
+  //   {
+  //     new: true,
+  //     runValidators: true
+  //   }
+  // );
+  let bootcamp = await BootcampSchema.findById(req.params.id);
 
   if (!bootcamp) {
     // return res.status(400).json({ success: false });
@@ -222,7 +211,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
     );
   }
 
-  if (bootcamp.user.toString() !== req.user.ide && req.user.role != "admin") {
+  if (bootcamp.user.toString() !== req.user.id && req.user.role != "admin") {
     return next(
       new ErrorResponse(
         `User ${req.user.id} is not authorised to DELETE this bootcamp`,
