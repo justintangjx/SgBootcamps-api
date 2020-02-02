@@ -3,8 +3,8 @@ const BootcampSchema = require("../models/Bootcamp");
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 
-// get all bootcamps
-// @route GET /api/v1/bootcamps
+// get all courses
+// @route GET /api/v1/courses
 // @route GET /api/v1/bootcamps/:bootcampId/courses
 // @access public
 exports.getCourses = asyncHandler(async (req, res, next) => {
@@ -44,7 +44,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 //   });
 // });
 
-// get single bootcamp
+// get single course
 // @route GET /api/v1/bootcamps/:id
 // @access public
 exports.getCourse = asyncHandler(async (req, res, next) => {

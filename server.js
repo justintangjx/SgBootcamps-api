@@ -24,11 +24,13 @@ if(process.env.NODE_ENV === 'development') {
 const bootcampsRoutes = require('./routes/bootcamps');
 const coursesRoutes = require('./routes/courses');
 const authRoutes = require('./routes/auth');
+const reviewsRoutes = require('./routes/reviews');
 
 // mount routers
 app.use('/api/v1/bootcamps', bootcampsRoutes);
 app.use('/api/v1/courses', coursesRoutes);
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/reviews', reviewsRoutes);
 
 app.use(errorHandler);
 
