@@ -73,6 +73,21 @@ const sendTokenResponse = (user, statusCode, res) => {
     .json({ success: true, token });
 };
 
+// @ desc   Logout User
+// @route   GET /api/v1/auth/logout
+// @access  Private
+exports.logout = ayncHandler(async (req, res, next) => {
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
+});
+
 
 
 // @ desc   GET current logged in user
@@ -86,8 +101,6 @@ exports.getMeCurrentUser = asyncHandler(async (req, res, next) => {
     data: user
   });
 });
-
-
 
 // @ desc   Forgot password
 // @route   POST /api/v1/auth/forgotpassword
@@ -133,8 +146,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-
-
 // @ desc   reset password
 // @route   PUT /api/v1/auth/resetpassword/:resettoken
 // @access  Public
@@ -164,40 +175,38 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
-
-
-// @ desc   update user details when you are logged in! 
+// @ desc   update user details when you are logged in!
 // @route   PUT /api/v1/auth/updatedetails
 // @access  Private
 exports.updateDetails = asyncHandler(async (req, res, next) => {
-    const fieldsToUpdate = {
-        name: req.body.name,
-        email: req.body.email
-    }
-    const user = await UserSchema.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-        new: true,
-        runValidators: true
-    });
-  
-    res.status(200).json({
-      success: true,
-      data: user
-    });
+  const fieldsToUpdate = {
+    name: req.body.name,
+    email: req.body.email
+  };
+  const user = await UserSchema.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+    new: true,
+    runValidators: true
   });
 
-// @ desc   update user details when you are logged in! 
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});
+
+// @ desc   update user details when you are logged in!
 // @route   PUT /api/v1/auth/updatedetails
 // @access  Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-    const user = await UserSchema.findById(req.user.id).select('+password');
+  const user = await UserSchema.findById(req.user.id).select("+password");
 
-    // check current password first 
-    if(!(await user.matchPassword(req.body.currentPassword))) {
-        return next(new ErrorResponse('Password is incorrect', 401));
-    }
+  // check current password first
+  if (!(await user.matchPassword(req.body.currentPassword))) {
+    return next(new ErrorResponse("Password is incorrect", 401));
+  }
 
-    user.password = req.body.newPassword;
-    await user.save();
+  user.password = req.body.newPassword;
+  await user.save();
 
-    sendTokenResponse(user, 200, res);
+  sendTokenResponse(user, 200, res);
 });
