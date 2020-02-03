@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
+const mongoSanitize = require('express-mongo-sanitize');
 
 // load env vars
 dotenv.config({ path: './config/config.env'});
@@ -19,6 +20,9 @@ app.use(cookieParser());
 if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 };
+
+// sanitize login data to prevent no-sql injection with operator
+app.use(mongoSanitize());
 
 // routing files
 const bootcampsRoutes = require('./routes/bootcamps');
